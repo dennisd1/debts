@@ -1,0 +1,14 @@
+# robots.txt for http://casebook.ru/
+User-agent: *
+Disallow:
+Disallow: /*utm_source=
+
+User-agent: Googlebot
+Allow: /*.ics$
+Disallow:
+Disallow: /*utm_source=
+
+User-agent: Yandex
+Disallow:
+Disallow: /*utm_source=
+Host: https://casebook.ru

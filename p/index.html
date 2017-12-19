@@ -1,0 +1,862 @@
+
+
+<!--[if IE]><![endif]-->
+<!doctype html>
+<script>
+	if (((window.location.hostname === 'casebook.ru') || (window.location.hostname === 'beta.casebook.ru')) &&
+		(window.location.protocol === 'http:')) {
+		window.location.replace(window.location.href.replace(/^http:/, 'https:'));
+	}
+
+	// Save utm flag
+	if (/(\?|&)(utm_|gclid)/i.test(location.search)) {
+		var urlParams,
+			match,
+			index,
+			pl = /\+/g,
+			search = /([^&=]+)=?([^&]*)/g,
+			decode = function (s) {
+				return decodeURIComponent(s.replace(pl, ' '));
+			},
+			query = window.location.search.substring(1),
+			utmParams = [];
+
+		urlParams = {};
+
+		while (!!(match = search.exec(query))) {
+			urlParams[decode(match[1])] = decode(match[2]);
+		}
+
+		for (index in urlParams) {
+			if (urlParams.hasOwnProperty(index)) {
+				if (/^(utm_|gclid)/i.test(index)) {
+					utmParams.push(index + '=' + urlParams[index]);
+				}
+			}
+		}
+
+		var request = new XMLHttpRequest(),
+			getCookie = function (name) {
+				var matches = document.cookie.match(new RegExp(
+					'(?:^|; )' + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + '=([^;]*)'
+				));
+
+				return matches ? decodeURIComponent(matches[1]) : undefined;
+			};
+
+		request.open('POST', '/api/ApiAccount/SaveUserUtmMark', true);
+		request.setRequestHeader('Content-Type', 'application/json');
+
+		request.onload = function () {
+			if ((request.status >= 200) && (request.status < 400)) {
+				var data = JSON.parse(request.responseText);
+
+				if (data.Success && data.Result) {
+					document.cookie = 'guestId=' + data.Result + '; path=/; expires=' +
+						(new Date(new Date().getTime() + 2922 * 24 * 60 * 60 * 1000)).toUTCString();
+				}
+			}
+		};
+
+		request.send(JSON.stringify({
+			utm: utmParams.join('&'),
+			guestId: getCookie('guestId') || null
+		}));
+	}
+</script>
+
+<!DOCTYPE html>
+<html lang="en">
+	<head lang="en">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta charset="utf-8">
+		<title>Создайте свою картотеку для мониторинга судебных дел и компаний</title>
+		<meta name="description" content="Контролируйте дела и изменения по компаниям, первыми узнавайте о банкротстве. Оценивайте факторы риска и исковую нагрузку, стройте схемы аффилированности.">
+		<meta name="yandex-verification" content="7db8a3e8e2b4d1f3" />
+		<meta name="google-site-verification" content="MTWVsHXPZ4scczg_0-iECHd_EhWFKHhalkZ0fCcJPZU" />
+		<meta name='wmail-verification' content='1b07f7d1b10c15c43edfd5ea27234e3d' />
+		<link href="landing/static/css/styles.css@12" type="text/css" rel="stylesheet">
+		<link rel="shortcut icon" href="assets/dist/favicon.ico">
+		<script type="text/javascript" src="landing/static/js/build.js@12"></script>
+		<script type="text/javascript" src="landing/static/js/app.js@12"></script>
+		<!-- Google Tag Manager -->
+		<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start': new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-PWRS5N7');</script>
+		<!-- End Google Tag Manager -->
+		<script>
+						var utmCompany = false,
+				utmPerson = false;
+		</script>
+		<!--Start waiting Google Optimize-->
+		<style>
+			.async-hide {
+				opacity: 0 !important;
+			}
+		</style>
+		<script>
+			(function(a,s,y,n,c,h,i,d,e) {
+				s.className += ' ' + y;
+				h.start = 1 * new Date;
+				h.end = i = function () {
+					s.className = s.className.replace(RegExp(' ?' + y), '');
+				};
+				(a[n] = a[n] || []).hide = h;
+				setTimeout(function () {
+					i();
+					h.end = null;
+				}, c);
+				h.timeout = c;
+			});
+			(window, document.documentElement, 'async-hide', 'dataLayer', 2000, {'GTM-5757CCM': true});
+		</script>
+		<!--End waiting Google Optimize-->
+	</head>
+	<body class="set-color--6">
+		<!-- Google Tag Manager (noscript) -->
+		<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PWRS5N7" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+		<!-- End Google Tag Manager (noscript) -->
+		<div class="l-substrate js-substrate"></div>
+		<div class="l-popup-motivation js-reg_popup">
+			<div class="b-title_wrapper">
+			<i class="b-icon b-icon__menumin js-reg_popup__hide"></i>
+				<p class="b-block-title">
+					Выберите цель<br>использования Casebook
+				</p>
+			</div>
+			<div class="b-block-choice">
+				<a class="b-choice_btn b-choice_btn__company js-choise_btn__company" target="_blank">
+					<div class="b-icon-container">
+						<i class="b-icon b-icon__company"></i>
+					</div>
+					<p class="b-block-title">
+						В интересах компании
+					</p>
+					<div class="b-link">
+						Продолжить
+					</div>
+				</a>
+				<div class="b-vertical_devider"></div>
+				<div class="b-horizontal_devider"></div>
+				<a class="b-choice_btn b-choice_btn__person js-choise_btn__person" target="_blank">
+					<div class="b-icon-container">
+						<i class="b-icon b-icon__user"></i>
+					</div>
+					<p class="b-block-title">
+						Как частное лицо
+					</p>
+					<div class="b-link">
+						Продолжить
+					</div>
+				</a>
+			</div>
+		</div>
+		<div class="l-header">
+			<div class="l-content">
+				<a href="index.html" class="b-icon b-icon__logo"></a>
+				<div class="b-icon b-icon__menu js-mobmenu-trigger"></div>
+				<div class="b-header-menu-container g-clrfix">
+					<a href="https://casebook.ru/Logon" class="b-link b-button__headmob">
+						Войти
+					</a>
+					<ul class="b-header-menu js-mobmenu">
+						<li class="b-header-menu-item">
+							<a href="https://casebook.ru/Logon" class="b-link">
+								Войти
+							</a>
+						</li>
+						<li class="b-header-menu-item">
+							<a href="http://help.casebook.ru" class="b-link">
+								Руководство
+							</a>
+						</li>
+						<li class="b-header-menu-item">
+							<a href="https://webinar.casebook.ru/" class="b-link">
+								Вебинары
+							</a>
+						</li>
+						<li class="b-header-menu-item">
+							<a href="index.html#anchor_price" class="b-link">
+								Стоимость
+							</a>
+						</li>
+						<li class="b-header-menu-item">
+							<a href="index.html#anchor_whom" class="b-link">
+								Для кого
+							</a>
+						</li>
+						<li class="b-header-menu-item">
+							<span class="b-link js-menu-trigger">
+								Возможности
+							</span>
+						</li>
+						<li class="b-header-menu-item b-icon b-icon__menulogo">
+							<div class="b-icon b-icon__menumin js-menumin-trigger"></div>
+						</li>
+					</ul>
+					<div class="b-popup-menu js-menu"></div>
+				</div>
+				<div class="b-header-columns">
+					<div class="b-header-columns-item">
+						<img src="landing/static/image/icons/cb-title-07.png" width="100%" class="b-header-image">
+					</div>
+					<div class="b-header-columns-item">
+						<h5 class="b-header-columns-item-title">
+							Создайте свою картотеку для мониторинга судебных дел и компаний
+						</h5>
+						<p class="b-header-columns-item-text">
+							Ставьте на контроль дела и подписывайтесь на изменения по компаниям, первыми узнавайте о банкротстве. Оценивайте факторы риска и исковую нагрузку потенциальных контрагентов, стройте схемы аффилированности.
+						</p>
+						<div class="b-button-container">
+							<a href="https://casebook.ru/Account/Register" class="b-button">
+								Начать бесплатно
+							</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="l-content">
+			<div class="b-video-container">
+				<div class="b-video">
+					<iframe id="video" name="video" src="https://www.youtube.com/embed/WBf9PkT-YLQ?showinfo=0" frameborder="0" allowfullscreen></iframe>
+				</div>
+			</div>
+			<div class="b-block b-block--1 b-block__whom" id="anchor_whom">
+				<div class="b-block-title">
+					Кому полезен Casebook
+				</div>
+				<div class="b-columns b-columns__triple">
+					<div class="b-columns-item">
+						<div class="b-icon-container">
+							<i class="b-icon b-icon__company_whom"></i>
+						</div>
+						<div class="b-columns-item-title">
+							Корпоративным юристам
+						</div>
+						<div class="b-columns-item-text">
+							Юридическим департаментам&nbsp;банков<br> и компаний.
+						</div>
+					</div>
+					<div class="b-columns-item">
+						<div class="b-icon-container">
+							<i class="b-icon b-icon__structure_whom"></i>
+						</div>
+						<div class="b-columns-item-title">
+							Юридическим компаниям
+						</div>
+						<div class="b-columns-item-text">
+							Адвокатам, частным юристам,<br> арбитражным управляющим.
+						</div>
+					</div>
+					<div class="b-columns-item">
+						<div class="b-icon-container">
+							<i class="b-icon b-icon__protect_whom"></i>
+						</div>
+						<div class="b-columns-item-title">
+							Cлужбам безопасности
+						</div>
+						<div class="b-columns-item-text">
+							Отделам, специализирующимся<br> на проверке контрагентов.
+						</div>
+					</div>
+				</div>
+				<div class="b-columns b-columns__triple">
+					<div class="b-columns-item">
+						<div class="b-icon-container">
+							<i class="b-icon b-icon__human"></i>
+						</div>
+						<div class="b-columns-item-title">
+							Риск-менеджерам
+						</div>
+						<div class="b-columns-item-text">
+							Отделам, занимающимся бизнес-<br> разведкой и оценкой рисков.
+						</div>
+					</div>
+					<div class="b-columns-item">
+						<div class="b-icon-container">
+							<i class="b-icon b-icon__fragile_whom"></i>
+						</div>
+						<div class="b-columns-item-title">
+							Консалтинговым компаниям
+						</div>
+						<div class="b-columns-item-text">
+							Страховым и аудиторским фирмам,<br> коллекторским агентствам.
+						</div>
+					</div>
+					<div class="b-columns-item">
+						<div class="b-icon-container">
+							<i class="b-icon b-icon__court_whom"></i>
+						</div>
+						<div class="b-columns-item-title">
+							Госструктурам
+						</div>
+						<div class="b-columns-item-text">
+							Ведомствам, отвечающим<br class="b-br__mobhide"> за мониторинг компаний<br> и их судебной активности.
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="b-block b-block__dark b-block__dark_1">
+			<div class="l-content">
+				<div class="b-block-title">
+					Контролируйте судебные дела и компании
+				</div>
+				<p class="b-block-text">
+					Начните уже сейчас — <br>быстрая регистрация, тестовый период 14 дней
+				</p>
+				<div class="b-button-container">
+					<a href="https://casebook.ru/Account/Register" class="b-button b-link_button">
+						Начать бесплатно
+					</a>
+				</div>
+			</div>
+		</div>
+		<div class="l-content">
+			<div class="b-block b-block--2 g-clrfix">
+				<div class="b-block-text-column">
+					<div class="b-icon-container">
+						<i class="b-icon b-icon__puls"></i>
+					</div>
+					<div class="b-block-title">
+						Будьте в курсе любых изменений
+					</div>
+					<p class="b-block-text">
+						Вы не пропустите важное определение, иск о признании банкротом, заявление компании по форме Р — о любых изменениях расскажет лента событий. Создавайте подборки дел, компаний, персон и судей и настройте по каждой свои параметры отслеживания.
+					</p>
+					<!--<a href="#" class="b-link">
+						<p class="b-link-text b-link-text__left b-link-mobtext__center">
+							Как это работает
+						</p>
+					</a>-->
+				</div>
+				<div class="b-image-container">
+					<div class="b-image-header">
+						<i class="b-icon b-icon__dots"></i>
+					</div>
+					<div class="b-image-container-content">
+						<img src="landing/static/image/about-01.png" class="b-block-image">
+					</div>
+				</div>
+			</div>
+			<div class="b-block b-block--5 g-clrfix">
+				<div class="b-block-text-column">
+					<div class="b-block-title">
+						Проверьте контрагента<br>и оцените риски
+					</div>
+					<div class="b-block-text">
+						<i class="b-icon b-icon__risk_small"></i>
+						<div class="b-text-description">
+							Факторы риска помогут выявить массового руководителя или предпосылки банкротства.
+						</div>
+					</div>
+					<div class="b-block-text">
+						<i class="b-icon b-icon__graf_small"></i>
+						<div class="b-text-description">
+							Арбитражная статистика представит исковую нагрузку контрагента в динамике.
+						</div>
+					</div>
+					<div class="b-block-text">
+						<i class="b-icon b-icon__counts_small"></i>
+						<div class="b-text-description">
+							Граф аффилированности покажет все связи компаний и персон на конкретную дату.
+						</div>
+					</div>
+					<div class="b-block-text">
+						<i class="b-icon b-icon__act_small"></i>
+						<div class="b-text-description">
+							Готовый анализ финансовой отчетности укажет на критическое изменение показателей.
+						</div>
+					</div>
+				</div>
+				<div class="b-image-container">
+					<div class="b-image-header">
+						<i class="b-icon b-icon__dots"></i>
+					</div>
+					<div class="b-image-container-content">
+						<img src="landing/static/image/about-02.png" class="b-block-image">
+					</div>
+				</div>
+			</div>
+			<div class="b-block b-block__single g-clrfix">
+				<div class="b-icon-container">
+					<i class="b-icon b-icon__graf"></i>
+				</div>
+				<div class="b-block-title">
+					Узнайте вероятность исхода вашего дела
+				</div>
+				<p class="b-block-text">
+					В реальном времени вы получаете объективные сведения о судебных делах, их движении по инстанциям, участниках, судьях и суммах требований. А с помощью технологий machine learning мы рассчитываем вероятность исхода и продолжительность дела. Прогноз доступен сразу на карточке дела.
+				</p>
+				<!--<a href="#" class="b-link">
+						<p class="b-link-text">
+							Как это работает
+						</p>
+					</a>-->
+				<div class="g-center">
+					<div class="b-image-container">
+						<div class="b-image-header">
+							<i class="b-icon b-icon__dots"></i>
+						</div>
+						<div class="b-image-container-content">
+							<img src="landing/static/image/about-03.png" class="b-block-image">
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="b-block b-block__dark b-block--3">
+			<div class="l-content">
+				<div class="b-block-title">
+					Отслеживайте любые изменения по делам<br> и компаниям
+				</div>
+				<p class="b-block-text">
+					Начните работать уже сегодня — <br>бесплатный тестовый период 14 дней
+				</p>
+				<div class="b-button-container">
+					<a href="https://casebook.ru/Account/Register" class="b-button b-link_button">
+						Начать бесплатно
+					</a>
+				</div>
+			</div>
+		</div>
+		<div class="l-content">
+			<div class="b-block b-block--4 b-block__menu js-menu-content">
+				<div class="b-popup-label js-menuback-trigger">
+					<span class="b-link">
+						Возможности
+					</span>
+				</div>
+				<div class="b-columns b-columns__triple">
+					<div class="b-columns-item">
+						<div class="b-icon-container">
+							<a href="https://casebook.ru/connections" class="b-icon b-icon__counts"></a>
+						</div>
+						<a href="https://casebook.ru/connections" class="b-columns-item-title">
+							Графы аффилированности
+						</a>
+						<a href="https://casebook.ru/connections" class="b-columns-item-text">
+							Выявите связи между компаниями<br>
+							и персонами на<br class="__mob-js"> текущий момент
+							или на любую<br> дату в прошлом.
+						</a>
+						<div class="b-text-center">
+							<a href="https://casebook.ru/connections" class="b-link">
+								Узнать больше
+							</a>
+						</div>
+					</div>
+					<div class="b-columns-item">
+						<div class="b-icon-container">
+							<a href="https://casebook.ru/statistics" class="b-icon b-icon__statistic"></a>
+						</div>
+						<a href="https://casebook.ru/statistics" class="b-columns-item-title">
+							Арбитражная статистика
+						</a>
+						<a href="https://casebook.ru/statistics" class="b-columns-item-text">
+							Изучите графики по судебной нагрузке<br>
+							контрагента<br class="__mob-js"> в динамике или постройте
+							анализ <br>по группе компаний.
+						</a>
+						<div class="b-text-center">
+							<a href="https://casebook.ru/statistics" class="b-link">
+								Узнать больше
+							</a>
+						</div>
+					</div>
+					<div class="b-columns-item">
+						<div class="b-icon-container">
+							<a href="https://casebook.ru/judges" class="b-icon b-icon__hammer"></a>
+						</div>
+						<a href="https://casebook.ru/judges" class="b-columns-item-title">
+							Информация о судье
+						</a>
+						<a href="https://casebook.ru/judges" class="b-columns-item-text">
+							Получите максимум сведений
+							о назначенном<br> судье:<br class="__mob-js"> биография, дела,
+							расписание заседаний.
+						</a>
+						<div class="b-text-center">
+							<a href="https://casebook.ru/judges" class="b-link">
+								Узнать больше
+							</a>
+						</div>
+					</div>
+				</div>
+				<div class="b-columns b-columns__triple">
+					<div class="b-columns-item">
+						<div class="b-icon-container">
+							<a href="https://casebook.ru/calendar" class="b-icon b-icon__calendar"></a>
+						</div>
+						<a href="https://casebook.ru/calendar" class="b-columns-item-title">
+							Судебный календарь
+						</a>
+						<a href="https://casebook.ru/calendar" class="b-columns-item-text">
+							Настройте календари заседаний
+							по своим<br> интересам<br class="__mob-js"> и синхронизируйте
+							их с Outlook, iCal<br> или Google Calendar.
+						</a>
+						<div class="b-text-center">
+							<a href="https://casebook.ru/calendar" class="b-link">
+								Узнать больше
+							</a>
+						</div>
+					</div>
+					<div class="b-columns-item">
+						<div class="b-icon-container">
+							<a href="https://casebook.ru/monitoring" class="b-icon b-icon__puls"></a>
+						</div>
+						<a href="https://casebook.ru/monitoring" class="b-columns-item-title">
+							Оперативный мониторинг
+						</a>
+						<a href="https://casebook.ru/monitoring" class="b-columns-item-text">
+							Добавляйте дела, компании и персон<br>
+							в подборки<br class="__mob-js"> и узнавайте об изменениях
+							в ленте<br> событий и по e-mail.
+						</a>
+						<div class="b-text-center">
+							<a href="https://casebook.ru/monitoring" class="b-link">
+								Узнать больше
+							</a>
+						</div>
+					</div>
+					<div class="b-columns-item">
+						<div class="b-icon-container">
+							<a href="https://casebook.ru/risks" class="b-icon b-icon__risk"></a>
+						</div>
+						<a href="https://casebook.ru/risks" class="b-columns-item-title">
+							Оценка рисков
+						</a>
+						<a href="https://casebook.ru/risks" class="b-columns-item-text">
+							Проверьте возможные факторы риска<br>
+							и «чистоту»<br class="__mob-js"> компании перед
+							заключением<br> сделки с контрагентом.
+						</a>
+						<div class="b-text-center">
+							<a href="https://casebook.ru/risks" class="b-link">
+								Узнать больше
+							</a>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="b-block b-block__slider g-clrfix">
+				<div class="b-slider js-slider">
+					<div class="b-slider-item js-slider-item">
+						<div class="b-slider-photo">
+							<img src="landing/static/image/photos/photo1.jpg">
+						</div>
+						<div class="b-columns-item-title">
+							Юрий Федоров
+						</div>
+						<div class="b-columns-item-text">
+							партнер правового бюро «Олевинский, Буюкян и партнеры»
+						</div>
+						<div class="b-columns-item-text">
+							«Casebook позволяет настраивать подписки на необходимые судебные дела и получать уведомления о произошедших событиях быстрее аналогов. Работая над делом, вы не только получаете информацию о заседаниях и решениях, но и можете ознакомиться с данными контрагентов. Кроме того, в сервисе больше деталей, чем в выписке из ЕГРЮЛ»
+						</div>
+					</div>
+					<div class="b-slider-item js-slider-item">
+						<div class="b-slider-photo">
+							<img src="landing/static/image/photos/photo2.jpg">
+						</div>
+						<div class="b-columns-item-title">
+							Дмитрий Жданухин
+						</div>
+						<div class="b-columns-item-text">
+							генеральный директор Центра развития коллекторства
+						</div>
+						<div class="b-columns-item-text">
+							«Мы используем Casebook при планировании самых сложных взысканий. Информация о судебной активности оппонентов вместе с данными о компании и владельцах позволяет понять самые запутанные конфликты. Более того, возможность прогнозирования развития событий и моделирования поведения оппонентов помогает успешно работать с долговыми проблемами».
+						</div>
+					</div>
+					<div class="b-slider-item js-slider-item">
+						<div class="b-slider-photo">
+							<img src="landing/static/image/photos/photo3.jpg">
+						</div>
+						<div class="b-columns-item-title">
+							Кирилл Кузнецов
+						</div>
+						<div class="b-columns-item-text">
+							управляющий партнер Юридического агентства «ЭКВИ»
+						</div>
+						<div class="b-columns-item-text">
+							«Casebook стал для нас одним из главных рабочих инструментов. Мы оперативно получаем обновления по всем интересующим делам — как тем, которые ведем мы, так и любым другим, будь то прецедентные дела, подписка на потенциального клиента или оппонента».
+						</div>
+					</div>
+					<div class="b-slider-item js-slider-item">
+						<div class="b-slider-photo">
+							<img src="landing/static/image/photos/photo4.jpg">
+						</div>
+						<div class="b-columns-item-title">
+							Екатерина Шестакова
+						</div>
+						<div class="b-columns-item-text">
+							специалист по налоговым проверкам и налоговому планированию
+						</div>
+						<div class="b-columns-item-text">
+							«Casebook полезен не только для тех, кто занимается судебными спорами, но и для тех, кому нужно проверить контрагента и выявить взаимозависимость с другими лицами, чтобы избежать возможных рисков. Радует, что сервис постоянно развивается и появляются новые функции».
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="l-content">
+			<div class="b-price" id="anchor_price">
+				<div class="b-columns-prices">
+					<div class="b-columns-prices-item">
+						<p class="b-prices-item-title">
+							Доступ на сутки
+						</p>
+						<div class="b-prices-item-icon b-icon-clock_price"></div>
+						<p class="b-prices-item-price">
+							500 ₽
+						</p>
+						<p class="b-prices-item-text">
+							Используйте все возможности полной версии Casebook в течение суток
+						</p>
+						<a href="https://casebook.ru/Account/Register" class="b-button-buy" target="_blank">
+							Купить
+						</a>
+					</div>
+					<div class="b-columns-prices-item">
+						<p class="b-prices-item-title">
+							Годовой доступ
+						</p>
+						<div class="b-popular">
+							ВЫГОДНО
+						</div>
+						<div class="b-prices-item-icon b-icon-diamond_price"></div>
+						<p class="b-prices-item-price">
+							48 000 ₽
+						</p>
+						<p class="b-prices-item-text">
+							Самое выгодное предложение для контроля и мониторинга судебных дел на постоянной основе
+						</p>
+						<a href="https://casebook.ru/Account/Register" class="b-button-buy" target="_blank">
+							Купить
+						</a>
+					</div>
+					<div class="b-columns-prices-item">
+						<p class="b-prices-item-title">
+							Доступ на месяц
+						</p>
+						<div class="b-prices-item-icon b-icon-calendar_price"></div>
+						<p class="b-prices-item-price">
+							5 000 ₽
+						</p>
+						<p class="b-prices-item-text">
+							Оптимальный вариант для детальной проверки нескольких компаний
+						</p>
+						<a href="https://casebook.ru/Account/Register" class="b-button-buy" target="_blank">
+							Купить
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="b-block b-block__dark">
+			<div class="l-content">
+				<div class="b-block-title">
+					Присоединяйтесь<br> к сообществу профессионалов
+				</div>
+				<p class="b-block-text">
+					Начните уже сейчас — <br> бесплатный тестовый период 14 дней
+				</p>
+				<div class="b-button-container">
+					<a href="https://casebook.ru/Account/Register" class="b-button b-link_button">
+						Начать бесплатно
+					</a>
+				</div>
+			</div>
+		</div>
+		<div class="l-content">
+			<div class="b-block b-block__clients g-clrfix">
+				<div class="b-block-title">
+					Наши клиенты
+				</div>
+				<p class="b-block-text">
+					Casebook используют специалисты крупнейших компаний для решения ежедневных задач самого широкого профиля. От проверки контрагентов и мониторинга судебной активности, до создания сложных аналитических отчетов, на подготовку которых раньше уходили месяцы работы.
+				</p>
+				<div class="b-clients">
+					<img src="landing/static/image/clients/client__1.png" class="b-client-image b-client-image__1"/>
+					<img src="landing/static/image/clients/client__2.png" class="b-client-image b-client-image__2"/>
+					<img src="landing/static/image/clients/client__3.png" class="b-client-image b-client-image__3"/>
+					<img src="landing/static/image/clients/client__4.png" class="b-client-image b-client-image__4"/>
+					<img src="landing/static/image/clients/client__5.png" class="b-client-image b-client-image__5"/>
+					<img src="landing/static/image/clients/client__6.png" class="b-client-image b-client-image__6"/>
+					<img src="landing/static/image/clients/client__7.png" class="b-client-image b-client-image__7"/>
+					<img src="landing/static/image/clients/client__8.png" class="b-client-image b-client-image__8"/>
+					<img src="landing/static/image/clients/client__9.png" class="b-client-image b-client-image__9"/>
+					<img src="landing/static/image/clients/client__10.png" class="b-client-image b-client-image__10"/>
+					<img src="landing/static/image/clients/client__11.png" class="b-client-image b-client-image__11"/>
+					<img src="landing/static/image/clients/client__12.png" class="b-client-image b-client-image__12"/>
+					<img src="landing/static/image/clients/client__13.png" class="b-client-image b-client-image__13"/>
+					<img src="landing/static/image/clients/client__14.png" class="b-client-image b-client-image__14"/>
+					<img src="landing/static/image/clients/client__15.png" class="b-client-image b-client-image__15"/>
+					<img src="landing/static/image/clients/client__16.png" class="b-client-image b-client-image__16"/>
+					<img src="landing/static/image/clients/client__17.png" class="b-client-image b-client-image__17"/>
+					<img src="landing/static/image/clients/client__18.png" class="b-client-image b-client-image__18"/>
+					<img src="landing/static/image/clients/client__19.png" class="b-client-image b-client-image__19"/>
+					<img src="landing/static/image/clients/client__20.png" class="b-client-image b-client-image__20"/>
+					<img src="landing/static/image/clients/client__21.png" class="b-client-image b-client-image__21"/>
+					<img src="landing/static/image/clients/client__22.png" class="b-client-image b-client-image__22"/>
+				</div>
+			</div>
+		</div>
+		<div class="b-block b-block__dark b-block__footer">
+			<div class="l-content">
+				<ul class="b-columns">
+					<li class="b-columns-item">
+						<ul class="b-list">
+							<li class="b-list-item b-list-item__title">
+								Обучение
+							</li>
+							<li class="b-list-item">
+								<a href="http://help.casebook.ru" class="b-link">
+									Видеоуроки
+								</a>
+							</li>
+							<li class="b-list-item">
+								<a href="https://webinar.casebook.ru/" class="b-link">
+									Вебинары
+								</a>
+							</li>
+						</ul>
+					</li>
+					<li class="b-columns-item">
+						<ul class="b-list">
+							<li class="b-list-item b-list-item__title">
+								Проекты
+							</li>
+							<li class="b-list-item">
+								<a href="index.html" class="b-link">
+									Casebook
+								</a>
+							</li>
+							<li class="b-list-item">
+								<a href="https://about.caselook.ru/" class="b-link">
+									Caselook
+								</a>
+							</li>
+							<li class="b-list-item">
+								<a href="http://casepro.pro" class="b-link">
+									Case.pro
+								</a>
+							</li>
+						</ul>
+					</li>
+					<li class="b-columns-item">
+						<ul class="b-list">
+							<li class="b-list-item b-list-item__title">
+								Мы в сети
+							</li>
+							<li class="b-list-item">
+								<a href="https://www.facebook.com/thelegalit" class="b-link">
+									Facebook
+								</a>
+							</li>
+							<li class="b-list-item">
+								<a href="https://www.linkedin.com/company/pravo-ru" class="b-link">
+									LinkedIn
+								</a>
+							</li>
+							<li class="b-list-item">
+								<a href="https://www.youtube.com/c/VideosPravoLegalIT" class="b-link">
+									YouTube
+								</a>
+							</li>
+							<li class="b-list-item">
+								<a href="https://blog.casebook.ru/" class="b-link">
+									Блог
+								</a>
+							</li>
+						</ul>
+					</li>
+					<li class="b-columns-item">
+						<ul class="b-list">
+							<li class="b-list-item b-list-item__title">
+								Информация
+							</li>
+							<li class="b-list-item">
+								<a href="https://pravo.partners" class="b-link">
+									Партнерская программа
+								</a>
+							</li>
+							<li class="b-list-item">
+								<a href="https://casebook.ru/agreement.pdf" class="b-link">
+									Пользовательское соглашение
+								</a>
+							</li>
+							<li class="b-list-item">
+								<a href="http://about.pravo.ru/job" class="b-link">
+									Вакансии
+								</a>
+							</li>
+							<li class="b-list-item">
+								<a href="http://about.pravo.ru" class="b-link">
+									О нас
+								</a>
+							</li>
+						</ul>
+					</li>
+					<li class="b-columns-item">
+						<ul class="b-list">
+							<li class="b-list-item b-list-item__logo">
+								<a href="http://about.pravo.ru" class="b-link">
+									<i class="b-icon b-icon__pravo"></i>
+								</a>
+							</li>
+							<li class="b-list-item">
+								<a href="tel:8 800 700-02-01" class="b-link">
+									8 800 700-02-01
+								</a>
+							</li>
+							<li class="b-list-item">
+								<a href="mailto:info@casebook.ru" class="b-link">
+									info@casebook.ru
+								</a>
+							</li>
+						</ul>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<!-- start Intercom -->
+		<script>
+		if ((location.hostname === 'casebook.ru') ||
+		(location.hostname === 'casebook.pravo.ru') ||
+		(location.hostname === 'kad.arbitr.ru') ||
+		(location.hostname === 'beta.casebook.ru')) {
+		(function(){var w=window;var ic=w.Intercom;if(typeof ic==="function")
+		{ic('reattach_activator');ic('update',intercomSettings);}
+		else{var d=document;var i=function()
+		{i.c(arguments)}
+		;i.q=[];i.c=function(args)
+		{i.q.push(args)}
+		;w.Intercom=i;function l()
+		{var s=d.createElement('script');s.type='text/javascript';s.async=true;s.src='https://widget.intercom.io/widget/f3btcdch';var x=d.getElementsByTagName('script')[0];x.parentNode.insertBefore(s,x);}
+		if(w.attachEvent)
+		{w.attachEvent('onload',l);}
+		else
+		{w.addEventListener('load',l,false);}
+		}})()
+		}
+		</script>
+		<!-- end Intercom -->
+		<!-- start Intercom chat -->
+		<script>
+		if ((location.hostname === 'casebook.ru') ||
+		(location.hostname === 'casebook.pravo.ru') ||
+		(location.hostname === 'kad.arbitr.ru') ||
+		(location.hostname === 'beta.casebook.ru')) {
+		window.Intercom('boot', {
+		'app_id': (
+		{ 'casebook.ru': 'nwkf05lt', 'casebook.pravo.ru': 'nwkf05lt', 'kad.arbitr.ru': 'nwkf05lt', 'beta.casebook.ru': 'f3btcdch', 'corporative.parcsis.net': 'f3btcdch', 'dev.casebook.ru': 'f3btcdch' }
+		)[location.hostname] || 'f3btcdch'
+		});
+		}
+		</script>
+		<!-- end Intercom chat -->
+	</body>
+</html>
+</html>
